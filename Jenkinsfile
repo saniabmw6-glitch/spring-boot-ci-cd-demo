@@ -1,3 +1,4 @@
+groovy
 pipeline {
     agent any
 
@@ -7,12 +8,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/Ayushkhodankar/spring-boot-ci-cd-demo.git'
-            }
-        }
-
         stage('Build') {
             steps {
                 sh 'mvn clean install'
