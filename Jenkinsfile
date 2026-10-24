@@ -16,10 +16,7 @@ pipeline {
                 sh 'whoami; hostname; which javac; javac -version; mvn -version'
             }
         }
-        
-    
 
-    stages {
         stage('Build') {
             steps {
                 sh 'mvn clean install'
@@ -37,20 +34,14 @@ pipeline {
                 sh 'mvn package'
             }
         }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying application...'
-            }
-        }
     }
 
     post {
-        success {
-            echo 'Build and Deployment Successful!'
-        }
         failure {
             echo 'Build failed.'
+        }
+        success {
+            echo 'Build successful.'
         }
     }
 }
