@@ -188,3 +188,4 @@ This project is licensed under the MIT License.
 * Add Swagger/OpenAPI documentation
 
 ---
+   Pipeline test
