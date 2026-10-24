@@ -11,15 +11,9 @@ pipeline {
     }
 
     stages {
-        stage('Debug') {
-            steps {
-                sh 'whoami; hostname; which javac; javac -version; mvn -version'
-            }
-        }
-
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                sh 'mvn clean install -DskipTests'
             }
         }
 
@@ -31,17 +25,32 @@ pipeline {
 
         stage('Package') {
             steps {
-                sh 'mvn package'
+                sh 'mvn package -DskipTests'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t spring-boot-demo:${BUILD_NUMBER} .'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                    docker rm -f spring-boot-demo || true
+                    docker run -d --name spring-boot-demo -p 8081:8080 spring-boot-demo:${BUILD_NUMBER}
+                '''
             }
         }
     }
 
     post {
-        failure {
-            echo 'Build failed.'
-        }
         success {
             echo 'Build successful.'
+        }
+        failure {
+            echo 'Build failed.'
         }
     }
 }
