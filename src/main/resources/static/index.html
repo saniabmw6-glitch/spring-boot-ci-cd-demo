@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevOps Control Center</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1020;
+      color: #edf2ff;
+    }
+    header {
+      padding: 24px 7%;
+      border-bottom: 1px solid #26314b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand { font-size: 22px; font-weight: bold; }
+    .brand span { color: #60a5fa; }
+    .tag {
+      color: #86efac;
+      background: #123326;
+      padding: 9px 13px;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+    main { max-width: 1100px; margin: auto; padding: 45px 22px; }
+    .hero {
+      padding: 35px;
+      border: 1px solid #293757;
+      border-radius: 20px;
+      background: linear-gradient(120deg, #172554, #151a32 70%);
+    }
+    .eyebrow { color: #93c5fd; letter-spacing: 2px; font-size: 12px; }
+    h1 { font-size: clamp(32px, 5vw, 52px); margin: 15px 0; }
+    .sub { color: #bac6df; line-height: 1.7; max-width: 650px; }
+    button {
+      background: #3b82f6; color: white; border: 0;
+      padding: 12px 18px; border-radius: 9px;
+      cursor: pointer; font-weight: bold; margin-top: 12px;
+    }
+    button:hover { background: #2563eb; }
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px; margin: 25px 0;
+    }
+    .card {
+      padding: 22px; border-radius: 15px;
+      background: #131b2e; border: 1px solid #29334b;
+    }
+    .label { color: #9eacc7; font-size: 13px; }
+    .value { font-size: 22px; font-weight: bold; margin-top: 12px; }
+    .green { color: #86efac; }
+    .blue { color: #93c5fd; }
+    h2 { margin-top: 38px; }
+    .pipeline {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px; margin-top: 20px;
+    }
+    .stage {
+      background: #131b2e; border: 1px solid #34415d;
+      padding: 20px 12px; border-radius: 12px; text-align: center;
+    }
+    .stage b { display: block; margin: 10px 0; }
+    .stage small { color: #aab8d2; }
+    #result { color: #cbd5e1; margin-top: 15px; }
+    footer {
+      text-align: center; padding: 28px;
+      border-top: 1px solid #26314b; color: #94a3b8; font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">DevOps<span>Control</span></div>
+    <div class="tag">● Dashboard Online</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">SPRING BOOT • CI/CD PROJECT</div>
+      <h1>Deployment Control Center</h1>
+      <p class="sub">
+        A central dashboard for exploring the CI/CD workflow,
+        container deployment and application health.
+      </p>
+      <button onclick="checkApp()">Check Application Health</button>
+      <p id="result">Press the button to test the Spring Boot API.</p>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="label">Application</div>
+        <div class="value blue">Spring Boot</div>
+      </div>
+      <div class="card">
+        <div class="label">Build Automation</div>
+        <div class="value blue">Jenkins</div>
+      </div>
+      <div class="card">
+        <div class="label">Container Platform</div>
+        <div class="value blue">Docker</div>
+      </div>
+      <div class="card">
+        <div class="label">Health Check</div>
+        <div class="value green" id="health">Not checked</div>
+      </div>
+    </section>
+
+    <h2>CI/CD Pipeline Workflow</h2>
+    <p class="sub">The stages used in this project workflow.</p>
+
+    <section class="pipeline">
+      <div class="stage">📂<b>GitHub</b><small>Source code</small></div>
+      <div class="stage">⚙️<b>Jenkins</b><small>Pipeline automation</small></div>
+      <div class="stage">🧪<b>Maven</b><small>Test and build</small></div>
+      <div class="stage">📦<b>Docker</b><small>Container image</small></div>
+      <div class="stage">☁️<b>AWS EC2</b><small>Application hosting</small></div>
+    </section>
+
+    <section class="card" style="margin-top:25px">
+      <div class="label">Project overview</div>
+      <p>Source code → Automated build → Container image → Application deployment</p>
+      <p class="sub">Pipeline stages shown here describe the workflow; they do not represent live Jenkins build results.</p>
+    </section>
+  </main>
+
+  <footer>DevOps Control Center · Spring Boot CI/CD Portfolio Project</footer>
+
+  <script>
+    async function checkApp() {
+      const result = document.getElementById('result');
+      const health = document.getElementById('health');
+      result.textContent = 'Checking application...';
+      health.textContent = 'Checking...';
+
+      try {
+        const response = await fetch('/api/hello');
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const message = await response.text();
+        result.textContent = 'API is responding: ' + message;
+        health.textContent = 'Reachable';
+        health.style.color = '#86efac';
+      } catch (error) {
+        result.textContent = 'Health check failed. Please check the application.';
+        health.textContent = 'Unavailable';
+        health.style.color = '#fca5a5';
+      }
+    }
+  </script>
+</body>
+</html>
