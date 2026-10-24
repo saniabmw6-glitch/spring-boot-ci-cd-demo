@@ -1,4 +1,5 @@
 # Spring Boot CI/CD Demo Project
+![CI](https://github.com/saniabmw6-glitch/spring-boot-ci-cd-demo/actions/workflows/maven.yml/badge.svg)
 
 This project demonstrates a simple Spring Boot application integrated with a full CI/CD pipeline using **Jenkins**, **GitHub Actions**, **Docker**, and **JUnit Testing**. It is designed to showcase modern DevOps practices in a microservice or monolithic setup.
 
