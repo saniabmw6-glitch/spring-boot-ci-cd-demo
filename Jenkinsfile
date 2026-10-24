@@ -1,11 +1,21 @@
-
 pipeline {
     agent any
- 
+
     tools {
-    maven 'maven3'
-    jdk 'JDK17'
-}
+        maven 'maven3'
+    }
+
+    environment {
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+        PATH = "/usr/lib/jvm/java-17-openjdk-amd64/bin:${env.PATH}"
+    }
+
+    stages {
+        stage('Debug') {
+            steps {
+                sh 'whoami; hostname; which javac; javac -version; mvn -version'
+            }
+        }
         
     
 
